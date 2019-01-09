@@ -1,6 +1,7 @@
 # servertools
 
 [![PyPI](https://img.shields.io/pypi/pyversions/servertools.svg)](http://pypi.python.org)
+[![PyPI](https://img.shields.io/pypi/format/Django.svg)](http://pypi.python.org)
 [![](https://img.shields.io/travis/michagrandel/servertools/develop.svg)](https://travis-ci.org/michagrandel/servertools)
 [![](https://img.shields.io/codecov/c/github/michagrandel/servertools/develop.svg)]()
 [![GitHub release](https://img.shields.io/github/release/michagrandel/servertools.svg)](https://github.com/michagrandel/servertools/releases)
