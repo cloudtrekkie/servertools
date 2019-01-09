@@ -13,9 +13,9 @@
 #
 #                     <> with ❤ by Micha Grandel (talk@michagrandel.de)
 #
-#                     Project:         https://github.com/michagrandel/Server-Tools
-#                     Report a bug:    https://github.com/michagrandel/Server-Tools/issues
-#                     Contribute:      https://github.com/michagrandel/Server-Tools/wiki/Contribute
+#                     Project:         https://github.com/michagrandel/servertools
+#                     Report a bug:    https://github.com/michagrandel/servertools/issues
+#                     Contribute:      https://github.com/michagrandel/servertools/wiki/Contribute
 #
 #                     -----------------------------------------------------------------
 #
