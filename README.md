@@ -1,11 +1,11 @@
 # servertools
 
-[![PyPI](https://img.shields.io/pypi/pyversions/BackupApi.svg)](http://pypi.python.org)
-[![](https://img.shields.io/travis/michagrandel/BackupApi/develop.svg)](https://travis-ci.org/michagrandel/BackupApi)
-[![](https://img.shields.io/codecov/c/github/michagrandel/BackupApi/develop.svg)]()
-[![GitHub release](https://img.shields.io/github/release/michagrandel/BackupApi.svg)](https://github.com/michagrandel/BackupApi/releases)
-[![PyPI](https://img.shields.io/pypi/v/BackupApi.svg)](http://pypi.python.org)
-[![license](https://img.shields.io/github/license/michagrandel/BackupApi.svg)](https://github.com/michagrandel/BackupApi/blob/master/LICENSE)
+[![PyPI](https://img.shields.io/pypi/pyversions/servertools.svg)](http://pypi.python.org)
+[![](https://img.shields.io/travis/michagrandel/servertools/develop.svg)](https://travis-ci.org/michagrandel/servertools)
+[![](https://img.shields.io/codecov/c/github/michagrandel/servertools/develop.svg)]()
+[![GitHub release](https://img.shields.io/github/release/michagrandel/servertools.svg)](https://github.com/michagrandel/servertools/releases)
+[![PyPI](https://img.shields.io/pypi/v/servertools.svg)](http://pypi.python.org)
+[![license](https://img.shields.io/github/license/michagrandel/servertools.svg)](https://github.com/michagrandel/servertools/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 **servertools** provide some tools to identify servers and fix some specific problems.
