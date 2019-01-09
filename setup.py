@@ -170,5 +170,6 @@ setup(
             'server-tools=scripts.server_tools:main',
         ],
     },
+    download_url='https://github.com/michagrandel/servertools/archive/v0.1.tar.gz',
     # scripts=['script/server-tools.py']  # [os.path.join('script', x) for x in os.listdir('script')]
 )
