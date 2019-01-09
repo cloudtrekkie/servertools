@@ -13,9 +13,9 @@
 #
 #                     <> with ❤ by Micha Grandel (talk@michagrandel.de)
 #                     
-#                     Project:         https://github.com/michagrandel/Server-Tools
-#                     Report a bug:    https://github.com/michagrandel/Server-Tools/issues
-#                     Contribute:      https://github.com/michagrandel/Server-Tools/wiki/Contribute
+#                     Project:         https://github.com/michagrandel/servertools
+#                     Report a bug:    https://github.com/michagrandel/servertools/issues
+#                     Contribute:      https://github.com/michagrandel/servertools/wiki/Contribute
 #                     
 #                     -----------------------------------------------------------------
 #                     
@@ -93,9 +93,8 @@ __maintainer_contact__ = 'talk@michagrandel.de'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-#with open(os.path.join(here, 'Readme.rst'), encoding='utf-8') as f:
-#    long_description = f.read()
-long_description=""
+with open(os.path.join(here, 'Readme.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 def requirements(category: AnyStr = 'install') -> Union[List[AnyStr], AnyStr]:
     """
