@@ -45,13 +45,18 @@ import locale
 import logging
 import gettext
 from logging.handlers import TimedRotatingFileHandler
-from datetime import datetime, timezone
+from datetime import datetime
 from argparse import ArgumentParser
 import pkg_resources
+
+from typing import AnyStr, List
+
+
 sys.path.append('../servertools')
 
 from servertools import MittwaldServer, Uberspace
 from servertools.appdirs import user_log_dir, user_config_dir
+
 
 """ test the server environment and apply fixes """
 
@@ -63,41 +68,58 @@ __license__ = 'Apache License, Version 2.0'
 __contact__ = 'michagrandel@googlemail.com'
 
 
-def _log_default_handler(proc, log_dir='.'):
+def _log_default_handler(proc: AnyStr, log_dir: AnyStr = '.'):
+    """
+    provides a default handler for a Logger
+
+    :param proc: name of the script
+    :param log_dir: directory in which the log file will be saved; default: '.'
+    """
     
     log_dir = os.path.abspath(log_dir)
     try:
+        # create directory if it does not exist yet
         os.makedirs(log_dir)
-    except IOError as e:
+    except IOError:
         pass
     
-    filename = os.path.join(log_dir, '{}.log'.format(os.path.splitext(proc)[0]))
+    # create Logger Objects
+    filename = os.path.join(log_dir, '{}.log'.format(os.path.splitext(proc)[0]))  # type: AnyStr
     handlers = [
         TimedRotatingFileHandler(filename, when='midnight', backupCount=10, encoding='utf-8')
-    ]
+    ]  # type: List[TimedRotatingFileHandler]
+    
+    # add formatter and set level for the Logger Objects
+    message_format = '%(asctime)s [%(levelname)s] %(message)s'  # type: AnyStr
+    level = logging.DEBUG if __status__ == 'development' else logging.INFO  # type: int
     
     if __status__ == 'development':
-        fmt = '%(asctime)s [%(levelname)s] %(message)s (in %(name)s.%(filename)s)'
-        handlers[0].setLevel(logging.DEBUG)
-    else:
-        fmt = '%(asctime)s [%(levelname)s] %(message)s'
-        handlers[0].setLevel(logging.INFO)
-    
-    file_logformatter = logging.Formatter(fmt, datefmt='%x %X')
-    handlers[0].setFormatter(file_logformatter)
+        message_format += ' (in %(name)s.%(filename)s)'
+    for i in range(len(handlers)):
+        handlers[i].setLevel(level)
+        handlers[i].setFormatter(logging.Formatter(message_format, datefmt='%x %X'))
     
     return handlers
 
 
-def main(args=None):
-    """ setup logging and start application """
-    if args == None:
+def main(args: List[AnyStr] = None) -> None:
+    """
+    prepare and start application
+
+    the main method is responsible for setting up the environment,
+    i.e. to load translations, set a logger, parse the command line arguments,
+    load configuration files and start the application.
+
+    :param args: command line arguments; default: None
+    :type args: List of strings
+    """
+    if not args:
         args = sys.argv
-        
+    
     script_name = os.path.basename(sys.argv[0])
     logging_path = user_log_dir(os.path.splitext(script_name)[0], __author__, __version__)
     config_path = user_config_dir(os.path.splitext(script_name)[0], __author__, __version__)
-
+    
     # set locale
     locale.setlocale(locale.LC_ALL, '')
     _locale = locale.getlocale(locale.LC_ALL)[0]
@@ -105,11 +127,16 @@ def main(args=None):
     
     translate = gettext.translation("servertools", localedir=locale_path, languages=[locale.getlocale()[0], 'en'])
     translate.install()
+    if '_' not in globals():
+        try:
+            _ = unicode
+        except NameError:
+            _ = str
     
     # setup logging
     handlers = _log_default_handler(proc=script_name, log_dir=logging_path)
     logging.basicConfig(level=4, format="%(message)s", handlers=handlers)
-
+    
     logger = logging.getLogger("{}_logger".format(os.path.splitext(script_name)[0]))
     logger.setLevel(logging.DEBUG)
     
@@ -117,7 +144,7 @@ def main(args=None):
     stream_handler.setLevel(logging.WARNING)
     stream_handler.setFormatter(logging.Formatter("%(message)s"))
     logger.addHandler(stream_handler)
-
+    
     # setup argument parser
     parser = ArgumentParser(prog=script_name)
     verbosity_parsergroup = parser.add_mutually_exclusive_group()
@@ -129,7 +156,7 @@ def main(args=None):
     command_parsers = parser.add_subparsers(help="commands")
     identify_parser = command_parsers.add_parser("identify", add_help=False, parents=[parser])
     
-    # todo: set the choices to specifiy a server to identify to installed plugins (e.g. mittwald or uberspace)
+    # todo: valid values for --look-for should come from installed plugins
     identify_parser.add_argument("--look-for", metavar="SERVER", dest="look_for", help=_("look for a specific server"),
                                  choices=["mittwald", "uberspace"], default='')
     identify_parser.set_defaults(name="identify")
@@ -144,7 +171,7 @@ def main(args=None):
     verbosity = max(0, min(3, args.verbosity))
     if args.silent:
         verbosity = -1
-
+    
     logging_level = {
         -1: logging.CRITICAL,  # 50
         0: logging.WARNING,  # 30
@@ -155,16 +182,16 @@ def main(args=None):
     stream_handler.setLevel(logging_level)
     
     # start application
-    logger.debug(_("{} started at {:%X} on Python {} ({})").format(
+    logger.debug(_("{0} started at {1:%X} on Python {2} ({3})").format(
         script_name, datetime.now(), platform.python_version(), platform.architecture()[0]
     ))
     logger.debug(_("Save logs to {}").format(logging_path))
     logger.debug(_("Load configurations from {}").format(config_path))
     logger.debug(_("Verbosity Level at {}").format(verbosity))
-
-    mw = MittwaldServer(logger=logger, verbose = verbosity)
-    uberspace = Uberspace(logger=logger, verbose = verbosity)
-
+    
+    mw = MittwaldServer(logger=logger, verbose=verbosity)
+    uberspace = Uberspace(logger=logger, verbose=verbosity)
+    
     # todo: make server identification extendable through plugins for identification
     try:
         # handle command line subparser "identify"
@@ -176,7 +203,7 @@ def main(args=None):
         # handle default behaviour
         if not mw.identify() and not uberspace.identify():
             logger.info(_("unknown platform"))
-    logger.debug("-"*80)
+    logger.debug("-" * 80)
 
 
 if __name__ == "__main__":
