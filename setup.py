@@ -82,10 +82,10 @@ except ImportError:
     
     packages = list(find_packages('.', 'ServerTools'))
 
-__status__ = 'alpha'
+__status__ = 'beta'
 __author__ = 'Micha Grandel'
 __maintainer__ = 'Micha Grandel'
-__version__ = '0.1.0'
+__version__ = '1.1.1'
 __copyright__ = '<> with ❤ by Micha Grandel'
 __license__ = 'Apache License, Version 2.0'
 __contact__ = 'talk@michagrandel.de'
@@ -133,7 +133,7 @@ setup(
     maintainer=__maintainer__,
     maintainer_email=__maintainer_contact__,
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: System Administrators',
         'Topic :: Internet :: WWW/HTTP :: Site Management',
         'Topic :: System :: Systems Administration',
@@ -168,6 +168,6 @@ setup(
             'server-tools=scripts.server_tools:main',
         ],
     },
-    download_url='https://github.com/michagrandel/servertools/archive/v0.1.tar.gz',
+    download_url='https://github.com/michagrandel/servertools/archive/v1.1.1.tar.gz',
     # scripts=['script/server-tools.py']  # [os.path.join('script', x) for x in os.listdir('script')]
 )
