@@ -28,11 +28,11 @@ if PY3:
 if sys.platform.startswith('java'):
     import platform
     os_name = platform.java_ver()[3][0]
-    if os_name.startswith('Windows'): # "Windows XP", "Windows 7", etc.
+    if os_name.startswith('Windows'):  # "Windows XP", "Windows 7", etc.
         system = 'win32'
-    elif os_name.startswith('Mac'): # "Mac OS X", etc.
+    elif os_name.startswith('Mac'):  # "Mac OS X", etc.
         system = 'darwin'
-    else: # "Linux", "SunOS", "FreeBSD", etc.
+    else:  # "Linux", "SunOS", "FreeBSD", etc.
         # Setting this to "linux2" is not ideal, but only Windows or Mac
         # are actually checked for and the rest of the module expects
         # *sys.platform* style strings.
@@ -41,9 +41,8 @@ else:
     system = sys.platform
 
 
-
 def user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
-    r"""Return full path to the user-specific data dir for this application.
+    """Return full path to the user-specific data dir for this application.
 
         "appname" is the name of application.
             If None, just the system directory is returned.
@@ -66,10 +65,10 @@ def user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
     Typical user data directories are:
         Mac OS X:               ~/Library/Application Support/<AppName>
         Unix:                   ~/.local/share/<AppName>    # or in $XDG_DATA_HOME, if defined
-        Win XP (not roaming):   C:\Documents and Settings\<username>\Application Data\<AppAuthor>\<AppName>
-        Win XP (roaming):       C:\Documents and Settings\<username>\Local Settings\Application Data\<AppAuthor>\<AppName>
-        Win 7  (not roaming):   C:\Users\<username>\AppData\Local\<AppAuthor>\<AppName>
-        Win 7  (roaming):       C:\Users\<username>\AppData\Roaming\<AppAuthor>\<AppName>
+        Win XP (not roaming):   %localappdata%\<AppAuthor>\<AppName>
+        Win XP (roaming):       %appdata%\<AppAuthor>\<AppName>
+        Win 7  (not roaming):   %localappdata%\<AppAuthor>\<AppName>
+        Win 7  (roaming):       %appdata%\<AppAuthor>\<AppName>
 
     For Unix, we follow the XDG spec and support $XDG_DATA_HOME.
     That means, by default "~/.local/share/<AppName>".
@@ -193,7 +192,7 @@ def user_config_dir(appname=None, appauthor=None, version=None, roaming=False):
     That means, by default "~/.config/<AppName>".
     """
     if system == "win32":
-        path = user_data_dir(appname, appauthor, None, roaming)
+        path = user_data_dir(appname, appauthor, roaming=roaming)
     elif system == 'darwin':
         path = os.path.expanduser('~/Library/Preferences/')
         if appname:
@@ -351,7 +350,7 @@ def user_state_dir(appname=None, appauthor=None, version=None, roaming=False):
     That means, by default "~/.local/state/<AppName>".
     """
     if system in ["win32", "darwin"]:
-        path = user_data_dir(appname, appauthor, None, roaming)
+        path = user_data_dir(appname, appauthor, roaming=roaming)
     else:
         path = os.getenv('XDG_STATE_HOME', os.path.expanduser("~/.local/state"))
         if appname:
@@ -414,8 +413,8 @@ def user_log_dir(appname=None, appauthor=None, version=None, opinion=True):
 
 class AppDirs(object):
     """Convenience wrapper for getting application dirs."""
-    def __init__(self, appname=None, appauthor=None, version=None,
-            roaming=False, multipath=False):
+
+    def __init__(self, appname=None, appauthor=None, version=None, roaming=False, multipath=False):
         self.appname = appname
         self.appauthor = appauthor
         self.version = version
@@ -424,41 +423,50 @@ class AppDirs(object):
 
     @property
     def user_data_dir(self):
+        """ returns user data directory """
         return user_data_dir(self.appname, self.appauthor,
                              version=self.version, roaming=self.roaming)
 
     @property
     def site_data_dir(self):
+        """ returns site data directory """
         return site_data_dir(self.appname, self.appauthor,
                              version=self.version, multipath=self.multipath)
 
     @property
     def user_config_dir(self):
+        """ returns user config directory """
         return user_config_dir(self.appname, self.appauthor,
                                version=self.version, roaming=self.roaming)
 
     @property
     def site_config_dir(self):
-        return site_config_dir(self.appname, self.appauthor,
-                             version=self.version, multipath=self.multipath)
+        """ returns site config directory """
+        return site_config_dir(
+            self.appname, self.appauthor,
+            version=self.version, multipath=self.multipath
+        )
 
     @property
     def user_cache_dir(self):
+        """ returns user cache directory """
         return user_cache_dir(self.appname, self.appauthor,
                               version=self.version)
 
     @property
     def user_state_dir(self):
+        """ returns user state directory """
         return user_state_dir(self.appname, self.appauthor,
                               version=self.version)
 
     @property
     def user_log_dir(self):
+        """ return user logging path """
         return user_log_dir(self.appname, self.appauthor,
                             version=self.version)
 
 
-#---- internal support stuff
+# ---- internal support stuff
 
 def _get_win_folder_from_registry(csidl_name):
     """This is a fallback technique at best. I'm not sure if using the
@@ -466,9 +474,9 @@ def _get_win_folder_from_registry(csidl_name):
     names.
     """
     if PY3:
-      import winreg as _winreg
+        import winreg as _winreg
     else:
-      import _winreg
+        import _winreg
 
     shell_folder_name = {
         "CSIDL_APPDATA": "AppData",
@@ -537,6 +545,7 @@ def _get_win_folder_with_ctypes(csidl_name):
 
     return buf.value
 
+
 def _get_win_folder_with_jna(csidl_name):
     import array
     from com.sun import jna
@@ -563,6 +572,7 @@ def _get_win_folder_with_jna(csidl_name):
 
     return dir
 
+
 if system == "win32":
     try:
         import win32com.shell
@@ -578,8 +588,7 @@ if system == "win32":
             except ImportError:
                 _get_win_folder = _get_win_folder_from_registry
 
-
-#---- self test code
+# ---- self test code
 
 if __name__ == "__main__":
     appname = "MyApp"

@@ -36,16 +36,15 @@
 #                     @formatter:on
 
 """
-:mod:`MittwaldServer` -- classes and methods to identify and apply fixes to a Mittwalds Server
+:mod:`MittwaldServer` -- classes and methods to identify and apply fixes to a Mittwald Server
 
 .. module:: MittwaldServer
    :platform: Unix, Windows
-   :synopsis: classes and methods to identify and apply fixes to a Mittwalds Server
+   :synopsis: classes and methods to identify and apply fixes to a Mittwald Server
 .. moduleauthor:: Micha Grandel <talk@michagrandel.de>
 """
 
 from __future__ import unicode_literals, print_function
-from io import open
 import sys
 from typing import *
 import logging
@@ -55,8 +54,11 @@ import platform
 from servertools.plugins import Server
 
 
+if sys.version_info.major > 2:
+    unicode = str
+
 if '_' not in globals():
-    _ = unicode if sys.version_info.major < 3 else str
+    _ = unicode
 
 
 class MittwaldServer(Server):
@@ -68,7 +70,7 @@ class MittwaldServer(Server):
         :type logger: :py:class:`~.logging.Logger`
         """
         super().__init__(logger, **kwargs)
-        self._pythonpath = '~/files/.local/lib/site-packages'
+        self._python_path = '~/files/.local/lib/site-packages'
     
     def apply(self, fix: AnyStr = None, force: bool = False) -> None:
         """
@@ -76,7 +78,6 @@ class MittwaldServer(Server):
 
         :param fix: fix to apply; apply all if fix is None
         :param force: force to apply fix even if the script is running on a different server
-        :param **kwargs: additional options
         """
         if not self.is_activated:
             return None
@@ -86,11 +87,11 @@ class MittwaldServer(Server):
                 raise RuntimeWarning(_('To apply fixes for Mittwald to a foreign server, use the force-Parameter!'))
             else:
                 self.logger.warning(_('Warning: Apply fixed for Mittwald to a foreign server!'))
-        
-        if os.path.isdir(os.path.expanduser(self._pythonpath)):
-            os.makedirs(self._pythonpath)
-        
-        sys.path.append(os.path.expanduser(self._pythonpath))
+
+        if os.path.isdir(os.path.expanduser(self._python_path)):
+            os.makedirs(self._python_path)
+
+        sys.path.append(os.path.expanduser(self._python_path))
     
     def identify(self) -> bool:
         """
@@ -99,7 +100,7 @@ class MittwaldServer(Server):
         :return: whether or not running on a Mittwald Server
         :rtype: bool
         """
-        if self._verbose > 2:
+        if self.verbose > 2:
             self.logger.info('Verifying Mittwald ...')
         
         mw = True if 'gentoo-mw' in platform.platform() else False
@@ -114,12 +115,12 @@ class MittwaldServer(Server):
             try:
                 os.mkdir(os.path.expanduser('~/.test'))
                 mkdir = True
-            except PermissionError as e:
+            except PermissionError:
                 mkdir = False
             assert (not mkdir), _("On Mittwald servers, you cannot create directories in the user's home directory!")
-            if self._verbose > 1:
+            if self.verbose > 1:
                 self.logger.info("Mittwald - Webhosting. Einfach intelligent.")
         else:
-            if self._verbose > 1:
+            if self.verbose > 1:
                 self.logger.info('Not Mittwald!')
         return mw
