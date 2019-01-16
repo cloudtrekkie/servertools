@@ -93,7 +93,7 @@ __maintainer_contact__ = 'talk@michagrandel.de'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, 'Readme.md'), encoding='utf-8') as f:
+with open(os.path.join(here, 'pypi/Readme.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 def requirements(category: AnyStr = 'install') -> Union[List[AnyStr], AnyStr]:
