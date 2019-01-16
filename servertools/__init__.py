@@ -6,13 +6,10 @@
 
 from __future__ import print_function, unicode_literals, division, absolute_import
 
-import sys
-import os
 import platform
 import logging
-from typing import List, AnyStr, Any
+from typing import AnyStr, Any
 from servertools.plugins import Server
-_ = lambda s: s
 
 
 class LoggableObject(object):
@@ -30,10 +27,7 @@ class LoggableObject(object):
             self.logger.setLevel(logging.WARNING)
             self.logger.addHandler(logging.StreamHandler())
             self.logger.handlers[-1].setLevel(logging.WARNING)
-        self._verbose = kwargs.get('verbose', 0)
-        
-
-
+        self.verbose = kwargs.get('verbose', 0)
 
 
 class Uberspace(Server):
@@ -52,7 +46,6 @@ class Uberspace(Server):
 
         :param fix: fix to apply; apply all if fix is None
         :param force: force to apply fix even if the script is running on a different server
-        :param **kwargs: additional options
         """
         pass
 
@@ -63,14 +56,14 @@ class Uberspace(Server):
         :return: whether or not running on an uberspace
         :rtype: bool
         """
-        if self._verbose > 2:
+        if self.verbose > 2:
             self.logger.info('Verifying Uberspace ...')
         
         if 'uberspace' in platform.node():
-            if self._verbose > 1:
+            if self.verbose > 1:
                 self.logger.info("Uberspace - Running on asteroids!")
             return True
         else:
-            if self._verbose > 1:
+            if self.verbose > 1:
                 self.logger.info('Not uberspace!')
             return False

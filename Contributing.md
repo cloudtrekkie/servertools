@@ -5,11 +5,11 @@ Welcome
 -------
 
 Thank you for your interest to contribute to this project!
-We appretiate everyone who wants to help!
+We appreciate everyone who wants to help!
 
 In this document we collected some information we think you will find useful to get started.
 
-If you have any questions, please feel free to [ask your question](question)!
+If you have any questions, please feel free to [ask your question][question]!
 
 
 Be a nice person
@@ -24,7 +24,7 @@ How to contribute
 -----------------
 
 > No Programmer? No Problem! Find out how you can 
-> [contribute without writing code][contribute-nocoder]!
+> [contribute without writing code][contribute-no-coder]!
 
 To keep the code organized, we uses the **[Git Flow branching model][gitflow-model]**. 
 If you never heard Git Flow before, please get familiar with the 
@@ -48,7 +48,7 @@ How to do a pull request
    git checkout develop
    ```
    
-3. Make sure, any existings tests in the test directory are working!
+3. Make sure, any existing tests in the test directory are working!
 4. Add a new feature branch
 
    ```
@@ -61,8 +61,8 @@ How to do a pull request
    git checkout -b feature/MYFEATURE develop
    ```
   
-5. Write a **.feature-file** for [behave](behave) to describe, what you want to change.\
-   If you are new to the behave-module, you may find [this tutorial](behave-tutorial) helpful
+5. Write a **.feature-file** for [behave][behave] to describe, what you want to change.\
+   If you are new to the behave-module, you may find [this tutorial][behave-tutorial] helpful
 6. Implement a Behaviour Tests using behave and Unit tests if needed
 7. Develop your feature and implement everything you need
 8. If you are finish, run your tests you wrote in the previous steps to 
@@ -78,7 +78,7 @@ You don't *have* to be an programmer to contribute. There are many ways to help:
 
 This is very simple! Just download our [tool to provide hardware- and software information][tool]
 about your computer. Run the tool and you are done! This will help us focus on hard- and software
-which is actual in use instead of get lost in improvments for platforms that do not
+which is actual in use instead of get lost in improvements for platforms that do not
 exist (any more).
 
 **Help us write or improve documentation for users, so they can learn how to use the software**
@@ -94,12 +94,12 @@ You can help us improving our documentation or writing new documentation by join
 
 If you find a bug, [please let us know][report-bug]!
 
-If you didn't find a bug yet, download a [pre-release][pre-release] to test our new 
+If you did not find a bug yet, download a [pre-release][pre-release] to test our new 
 features and code. You probably will find something soon. 
 
 **Help to improve the user interface**
 
-Please provide screenshots of our software! This is very helpful for user interface enhancments!
+Please provide screenshots of our software! This is very helpful for user interface enhancements!
 If you are familiar with graphics software or UI Designers, you may want to suggest new
 or enhanced user interface concepts!
 
@@ -125,7 +125,7 @@ Don't hesitate to [ask your questions][question] if you have something in mind!
 
 <!-- wiki links -->
 <!-- @docs: The DOCUMENTATION TEAM will update these links if necessary -->
-[contribute-nocoder]: I-am-no-programmer.-What-can-I-do
+[contribute-no-coder]: I-am-no-programmer.-What-can-I-do
 [maintainer]: https://github.com/michagrandel/servertools/wiki/Project-Maintainers
 [tool]: https://github.com/michagrandel/servertools/wiki/Tools
 [translate]: https://github.com/michagrandel/servertools/wiki/Internationalisation

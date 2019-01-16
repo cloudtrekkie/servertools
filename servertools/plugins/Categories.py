@@ -45,8 +45,6 @@
 """
 
 from __future__ import unicode_literals, print_function
-from io import open
-import sys
 from typing import *
 from yapsy.IPlugin import IPlugin
 import logging
@@ -75,7 +73,6 @@ class Server(IPlugin):
 
         :param fix: fix to apply; apply all if fix is None
         :param force: force to apply fix even if the script is running on a different server
-        :param **kwargs: additional options
         """
         pass
 

@@ -67,6 +67,9 @@ __copyright__ = '<> with ❤ by Micha Grandel'
 __license__ = 'Apache License, Version 2.0'
 __contact__ = 'michagrandel@googlemail.com'
 
+if sys.version_info.major > 2:
+    unicode = str
+
 
 def _log_default_handler(proc: AnyStr, log_dir: AnyStr = '.'):
     """
@@ -128,7 +131,9 @@ def main(args: List[AnyStr] = None) -> int:
     
     translate = gettext.translation("servertools", localedir=locale_path, languages=[locale.getlocale()[0], 'en'])
     translate.install()
-    _ = lambda s: s if '_' not in globals() else _
+
+    if '_' not in globals():
+        _ = unicode
     
     # setup logging
     handlers = _log_default_handler(proc=script_name, log_dir=logging_path)

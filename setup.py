@@ -53,7 +53,6 @@ from __future__ import unicode_literals, print_function
 from io import open
 from typing import *
 import os
-import glob
 
 
 try:
@@ -63,9 +62,9 @@ except ImportError:
     from distutils.core import setup
     from pkgutil import walk_packages
     import servertools
-    
-    
-    def find_packages(path: AnyStr = __path__, prefix: AnyStr = "") -> None:
+
+
+    def find_packages(path: AnyStr = __path__, prefix: AnyStr = ""):
         """
         find packages that are included in this project
         
@@ -74,11 +73,10 @@ except ImportError:
         :return: list with packages in this project
         """
         yield prefix
-        prefix = prefix + "."
+        prefix += "."
         for _, name, ispkg in walk_packages(path, prefix):
             if ispkg:
                 yield name
-    
     
     packages = list(find_packages('.', 'ServerTools'))
 
@@ -95,6 +93,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 with open(os.path.join(here, 'pypi/Readme.md'), encoding='utf-8') as f:
     long_description = f.read()
+
 
 def requirements(category: AnyStr = 'install') -> Union[List[AnyStr], AnyStr]:
     """
@@ -113,10 +112,10 @@ def requirements(category: AnyStr = 'install') -> Union[List[AnyStr], AnyStr]:
         return []
     
     try:
-        with open(file_, 'r', encoding='utf-8') as requirements_file:
+        with open(file_, encoding='utf-8') as requirements_file:
             content = requirements_file.read()
         content = content.split('\n')
-    except (IOError, OSError) as error:
+    except (IOError, OSError):
         content = []
     
     return content
