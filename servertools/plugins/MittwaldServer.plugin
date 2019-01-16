@@ -1,0 +1,15 @@
+[Core]
+Name = Mittwald Server
+Module = mittwaldserver
+
+[Documentation]
+Author = Micha Grandel
+Version = 0.1
+Website = https://github.com/michagrandel/servertools
+Description = Plugin to identify and apply fixes to a Mittwald Server
+Copyright = by Micha Grandel (talk@michagrandel.de)
+License = Apache 2.0 License
+
+[Server Info]
+Host = Mittwald
+Slogan = Webhosting. Einfach intelligent.
