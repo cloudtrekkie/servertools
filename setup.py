@@ -85,7 +85,7 @@ except ImportError:
 __status__ = 'beta'
 __author__ = 'Micha Grandel'
 __maintainer__ = 'Micha Grandel'
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 __copyright__ = '<> with ❤ by Micha Grandel'
 __license__ = 'Apache License, Version 2.0'
 __contact__ = 'talk@michagrandel.de'
@@ -133,7 +133,11 @@ setup(
     maintainer=__maintainer__,
     maintainer_email=__maintainer_contact__,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        {
+            'beta': 'Development Status :: 4 - Beta',
+            'production': 'Development Status :: 5 - Production',
+            'development': 'Development Status :: 4 - Beta',
+        }.get(__status__, 'Development Status :: 3 - Alpha'),
         'Intended Audience :: System Administrators',
         'Topic :: Internet :: WWW/HTTP :: Site Management',
         'Topic :: System :: Systems Administration',
@@ -168,6 +172,6 @@ setup(
             'server-tools=scripts.server_tools:main',
         ],
     },
-    download_url='https://github.com/michagrandel/servertools/archive/v1.1.1.tar.gz',
+    download_url='https://github.com/michagrandel/servertools/archive/v{version}.tar.gz'.format(version=__version__),
     # scripts=['script/server-tools.py']  # [os.path.join('script', x) for x in os.listdir('script')]
 )
